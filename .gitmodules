@@ -1,0 +1,12 @@
+[submodule "apps/smart-assistant-app"]
+	path = apps/smart-assistant-app
+	url = https://github.com/ibrahimalsattouf88-lab/smart-assistant-app
+[submodule "apps/control-panel-app"]
+	path = apps/control-panel-app
+	url = https://github.com/ibrahimalsattouf88-lab/control-panel-app
+[submodule "apps/autopilot"]
+	path = apps/autopilot
+	url = https://github.com/ibrahimalsattouf88-lab/ibrahimalsattouf88-lab-smart-assistant-autopilot
+[submodule "apps/manusva"]
+	path = apps/manusva
+	url = https://github.com/ibrahimalsattouf88-lab/ManusVA
