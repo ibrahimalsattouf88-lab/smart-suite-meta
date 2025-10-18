@@ -1,39 +1,27 @@
-name: Trigger Children on submodule change
-
+name: Dispatch to children on push
 on:
   push:
     branches: [ main ]
-    paths:
-      - "apps/**"
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
-  trigger:
+  dispatch:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger Autopilot
+      - name: Trigger smart-assistant-app
         run: |
-          set -e
-          curl -sS -X POST \
+          curl -sSL -X POST \
+            -H "Authorization: token ${{ secrets.GIT_PUSH_TOKEN }}" \
             -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.GIT_PUSH_TOKEN }}" \
-            https://api.github.com/repos/ibrahimalsattouf88-lab/ibrahimalsattouf88-lab-smart-assistant-autopilot/dispatches \
-            -d '{"event_type":"trigger_from_meta"}'
-
-      - name: Trigger Smart Assistant App
-        run: |
-          set -e
-          curl -sS -X POST \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.GIT_PUSH_TOKEN }}" \
             https://api.github.com/repos/ibrahimalsattouf88-lab/smart-assistant-app/dispatches \
             -d '{"event_type":"trigger_from_meta"}'
-
-      - name: Trigger Control Panel App
+      - name: Trigger control-panel-app
         run: |
-          set -e
-          curl -sS -X POST \
+          curl -sSL -X POST \
+            -H "Authorization: token ${{ secrets.GIT_PUSH_TOKEN }}" \
             -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.GIT_PUSH_TOKEN }}" \
             https://api.github.com/repos/ibrahimalsattouf88-lab/control-panel-app/dispatches \
             -d '{"event_type":"trigger_from_meta"}'
