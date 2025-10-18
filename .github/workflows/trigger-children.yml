@@ -11,43 +11,29 @@ jobs:
   trigger:
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger Autopilot (repository_dispatch)
+      - name: Trigger Autopilot
         run: |
-          curl -X POST \
+          set -e
+          curl -sS -X POST \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.GIT_PUSH_TOKEN }}" \
             https://api.github.com/repos/ibrahimalsattouf88-lab/ibrahimalsattouf88-lab-smart-assistant-autopilot/dispatches \
             -d '{"event_type":"trigger_from_meta"}'
 
-      - name: Trigger Smart Assistant App (repository_dispatch)
+      - name: Trigger Smart Assistant App
         run: |
-          curl -X POST \
+          set -e
+          curl -sS -X POST \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.GIT_PUSH_TOKEN }}" \
             https://api.github.com/repos/ibrahimalsattouf88-lab/smart-assistant-app/dispatches \
             -d '{"event_type":"trigger_from_meta"}'
 
-      - name: Trigger Control Panel App (repository_dispatch)
+      - name: Trigger Control Panel App
         run: |
-          curl -X POST \
+          set -e
+          curl -sS -X POST \
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.GIT_PUSH_TOKEN }}" \
             https://api.github.com/repos/ibrahimalsattouf88-lab/control-panel-app/dispatches \
             -d '{"event_type":"trigger_from_meta"}'
-
-      # --- الضربة المضمونة: استدعاء workflow_dispatch مباشرة بالاسم ---
-      - name: Fallback - Dispatch Control Panel workflow directly
-        run: |
-          curl -X POST \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.GIT_PUSH_TOKEN }}" \
-            https://api.github.com/repos/ibrahimalsattouf88-lab/control-panel-app/actions/workflows/trigger-from-meta.yml/dispatches \
-            -d '{"ref":"main"}'
-
-      - name: Fallback - Dispatch Smart Assistant workflow directly
-        run: |
-          curl -X POST \
-            -H "Accept: application/vnd.github+json" \
-            -H "Authorization: Bearer ${{ secrets.GIT_PUSH_TOKEN }}" \
-            https://api.github.com/repos/ibrahimalsattouf88-lab/smart-assistant-app/actions/workflows/trigger-from-meta.yml/dispatches \
-            -d '{"ref":"main"}'
